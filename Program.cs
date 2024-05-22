@@ -127,9 +127,16 @@ namespace FlowControl
 			}
 			else
 			{
-				// todo check for at least three words
-				var words = text.Split(" ");
+				var words = text.Split(' '); // split string
 
+				// remove leading and trailing spaces
+				for (int i = 0; i < words.Length; i++)
+				{
+					words[i] = words[i].Trim();
+					Console.WriteLine($"Just trimmed: {words[i]}");
+				}
+
+				// check for at least three words
 				if (words.Length < 3)
 				{
 					Console.WriteLine("Du skriva minst tre ord. Försöker igen");
@@ -138,7 +145,7 @@ namespace FlowControl
 				else
 				{
 					string thirdWord = words[2];
-					Console.WriteLine(thirdWord);
+					Console.WriteLine($"The third word was: {thirdWord}");
 				}
 			}
 		}

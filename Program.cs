@@ -2,7 +2,7 @@
 {
 	internal class Program
 	{
-		static void Main(string[] args)
+		private static void Main(string[] args)
 		{
 			bool isRunning = true;
 
@@ -43,7 +43,7 @@
 			Console.Write("Skriv ditt val: ");
 		}
 
-		static void YouthOrSenior()
+		private static void YouthOrSenior()
 		{
 			Console.WriteLine("Här räknas priset ut beroende på ålder. Välj ett menyval");
 			Console.WriteLine("1. Räkna ut för en person");
@@ -57,6 +57,28 @@
 					FindPriceOnce();
 					break;
 				case "2":
+					Console.WriteLine("Räknar ut för flera personer");
+					// Try parse input to number
+					Console.WriteLine("Skriv antalet personer i sällskapet");
+					string nStr = Console.ReadLine()!; // get number of persons
+					int totalSum = 0;
+					bool success = int.TryParse(nStr, out int n);
+
+					if (success && n > 0) // correct user input
+					{
+						for (int i = 0; i < n; i++)
+						{
+							int price = FindPriceOnce();
+							totalSum += price;
+						}
+						Console.WriteLine($"Antal personer: {n}");
+						Console.WriteLine($"Totalsumma: {totalSum}");
+					}
+					else
+					{
+						Console.WriteLine("Felaktig inmatning av antal personer i sällskapet, måste vara positivt och anges i siffror. Börjar om");
+						YouthOrSenior();
+					}
 					break;
 				case "0":
 					Console.WriteLine("Går tillbaka till huvudmenyn");
@@ -68,12 +90,11 @@
 			}
 		}
 
-		static void RepeatTenTimes()
+		private static void RepeatTenTimes()
 		{
-			Console.WriteLine();
 		}
 
-		static void TheThirdWord()
+		private static void TheThirdWord()
 		{
 			Console.WriteLine();
 		}

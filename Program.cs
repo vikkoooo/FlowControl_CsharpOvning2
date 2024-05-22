@@ -127,14 +127,7 @@ namespace FlowControl
 			}
 			else
 			{
-				var words = text.Split(' '); // split string
-
-				// remove leading and trailing spaces
-				for (int i = 0; i < words.Length; i++)
-				{
-					words[i] = words[i].Trim();
-					Console.WriteLine($"Just trimmed: {words[i]}");
-				}
+				var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries); // split string AND remove leading/trailing spaces
 
 				// check for at least three words
 				if (words.Length < 3)
@@ -145,7 +138,7 @@ namespace FlowControl
 				else
 				{
 					string thirdWord = words[2];
-					Console.WriteLine($"The third word was: {thirdWord}");
+					Console.WriteLine($"Det tredje ordet var: {thirdWord}");
 				}
 			}
 		}

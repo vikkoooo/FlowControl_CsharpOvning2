@@ -1,4 +1,6 @@
-﻿namespace FlowControl
+﻿using System.Text;
+
+namespace FlowControl
 {
 	internal class Program
 	{
@@ -92,6 +94,25 @@
 
 		private static void RepeatTenTimes()
 		{
+			Console.WriteLine("Skriv en text så upprepar jag den åt dig tio gånger");
+			string text = Console.ReadLine()!;
+
+			if (string.IsNullOrWhiteSpace(text))
+			{
+				Console.WriteLine("Du måste skriva något. Försöker igen");
+				RepeatTenTimes();
+			}
+			else
+			{
+				StringBuilder sb = new StringBuilder();
+
+				for (int i = 0; i < 10; i++)
+				{
+					sb.Append($"{i + 1}. {text}, ");
+				}
+				sb.Remove(sb.Length - 2, 2); // remove trailing ", "
+				Console.WriteLine(sb.ToString()); // print result
+			}
 		}
 
 		private static void TheThirdWord()

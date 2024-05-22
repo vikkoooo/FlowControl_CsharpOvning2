@@ -117,7 +117,30 @@ namespace FlowControl
 
 		private static void TheThirdWord()
 		{
-			Console.WriteLine();
+			Console.WriteLine("Skriv en text så delar jag upp den vid varje blanksteg/space/mellanslag (ange minst 3 ord)");
+			string text = Console.ReadLine()!;
+
+			if (string.IsNullOrWhiteSpace(text))
+			{
+				Console.WriteLine("Du måste skriva något. Försöker igen");
+				TheThirdWord();
+			}
+			else
+			{
+				// todo check for at least three words
+				var words = text.Split(" ");
+
+				if (words.Length < 3)
+				{
+					Console.WriteLine("Du skriva minst tre ord. Försöker igen");
+					TheThirdWord();
+				}
+				else
+				{
+					string thirdWord = words[2];
+					Console.WriteLine(thirdWord);
+				}
+			}
 		}
 
 

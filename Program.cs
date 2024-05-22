@@ -1,7 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
-
-namespace FlowControl
+﻿namespace FlowControl
 {
 	internal class Program
 	{
@@ -26,7 +23,7 @@ namespace FlowControl
 					case "3":
 						TheThirdWord();
 						break;
-					case "4":
+					case "0":
 						isRunning = false;
 						Console.WriteLine("Avslutar applikationen");
 						break;
@@ -35,14 +32,13 @@ namespace FlowControl
 						break;
 				}
 			}
-
 		}
 		private static void MainMenu()
 		{
 			Console.WriteLine("Huvudmeny");
 			Console.WriteLine("1. Ungdom eller Pensionär");
-			Console.WriteLine("2. Option 2");
-			Console.WriteLine("3. Option 3");
+			Console.WriteLine("2. Repetera tio gånger");
+			Console.WriteLine("3. Det tredje ordet");
 			Console.WriteLine("0. Avsluta Programmet");
 			Console.Write("Skriv ditt val: ");
 		}
@@ -58,37 +54,7 @@ namespace FlowControl
 			{
 				case "1":
 					Console.WriteLine("Räknar ut för en person");
-					Console.WriteLine("Ange en ålder i siffror");
-					string ageStr = Console.ReadLine()!;
-
-					// Try parse input to number
-					bool success = int.TryParse(ageStr, out int age);
-					if (success) // correct user input
-					{
-						if (age < 20 && age >= 0) // is youth and born
-						{
-							Console.WriteLine("Ungdomspris: 80kr");
-						}
-						else if (age > 64) // is senior
-						{
-							Console.WriteLine("Pensionärspris: 90kr");
-						}
-						else if (age < 0) // invalid age (negative number)
-						{
-							Console.WriteLine("Felaktig inmatning av ålder, ålder kan inte vara negativ. Börjar om");
-							YouthOrSenior();
-						}
-						else // is between 20 and 64, inclusive
-						{
-							Console.WriteLine("Standardpris: 120kr");
-						}
-					}
-					else // invalid user input
-					{
-						Console.WriteLine("Felaktig inmatning av ålder. Börjar om");
-						YouthOrSenior();
-					}
-
+					FindPriceOnce();
 					break;
 				case "2":
 					break;
@@ -110,6 +76,46 @@ namespace FlowControl
 		static void TheThirdWord()
 		{
 			Console.WriteLine();
+		}
+
+
+		private static int FindPriceOnce()
+		{
+			Console.WriteLine("Ange en ålder i siffror");
+			string ageStr = Console.ReadLine()!;
+
+			// Try parse input to number
+			bool success = int.TryParse(ageStr, out int age);
+			if (success) // correct user input
+			{
+				if (age < 20 && age >= 0) // is youth and born
+				{
+					Console.WriteLine("Ungdomspris: 80kr");
+					return 80;
+				}
+				else if (age > 64) // is senior
+				{
+					Console.WriteLine("Pensionärspris: 90kr");
+					return 90;
+				}
+				else if (age < 0) // invalid age (negative number)
+				{
+					Console.WriteLine("Felaktig inmatning av ålder, ålder kan inte vara negativ. Börjar om");
+					YouthOrSenior();
+					return 0;
+				}
+				else // is between 20 and 64, inclusive
+				{
+					Console.WriteLine("Standardpris: 120kr");
+					return 120;
+				}
+			}
+			else // invalid user input
+			{
+				Console.WriteLine("Felaktig inmatning av ålder, ange ålder i siffror. Börjar om");
+				YouthOrSenior();
+				return 0;
+			}
 		}
 	}
 }

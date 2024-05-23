@@ -50,8 +50,9 @@ namespace FlowControl
 			Console.WriteLine("Här räknas priset ut beroende på ålder. Välj ett menyval");
 			Console.WriteLine("1. Räkna ut för en person");
 			Console.WriteLine("2. Räkna ut för ett helt sällskap");
-			string choice = Console.ReadLine()!;
+			Console.WriteLine("0. Backa till huvudmeny");
 
+			string choice = Console.ReadLine()!;
 			switch (choice)
 			{
 				case "1":
@@ -60,27 +61,7 @@ namespace FlowControl
 					break;
 				case "2":
 					Console.WriteLine("Räknar ut för flera personer");
-					// Try parse input to number
-					Console.WriteLine("Skriv antalet personer i sällskapet");
-					string nStr = Console.ReadLine()!; // get number of persons
-					int totalSum = 0;
-					bool success = int.TryParse(nStr, out int n);
-
-					if (success && n > 0) // correct user input
-					{
-						for (int i = 0; i < n; i++)
-						{
-							int price = FindPriceOnce();
-							totalSum += price;
-						}
-						Console.WriteLine($"Antal personer: {n}");
-						Console.WriteLine($"Totalsumma: {totalSum}");
-					}
-					else
-					{
-						Console.WriteLine("Felaktig inmatning av antal personer i sällskapet, måste vara positivt och anges i siffror. Börjar om");
-						YouthOrSenior();
-					}
+					FindPriceGroup();
 					break;
 				case "0":
 					Console.WriteLine("Går tillbaka till huvudmenyn");
@@ -92,6 +73,7 @@ namespace FlowControl
 			}
 		}
 
+		// Function that finds the price for a certain age category and returns it
 		private static int FindPriceOnce()
 		{
 			Console.WriteLine("Ange en ålder i siffror");
@@ -128,6 +110,33 @@ namespace FlowControl
 				Console.WriteLine("Felaktig inmatning av ålder, ange ålder i siffror. Börjar om");
 				YouthOrSenior();
 				return 0;
+			}
+		}
+
+		// Function that calculates a total price for a group
+		private static void FindPriceGroup()
+		{
+			Console.WriteLine("Skriv antalet personer i sällskapet");
+			string nStr = Console.ReadLine()!; // get number of persons as a string
+			bool success = int.TryParse(nStr, out int n); // Try parse input to number
+			int totalSum = 0; // holding return value
+
+			// correct user input
+			if (success && n > 0)
+			{
+				// find price for each person and add to totalSum counter
+				for (int i = 0; i < n; i++)
+				{
+					int price = FindPriceOnce();
+					totalSum += price;
+				}
+				Console.WriteLine($"Antal personer: {n}");
+				Console.WriteLine($"Totalsumma: {totalSum}");
+			}
+			else
+			{
+				Console.WriteLine("Felaktig inmatning av antal personer i sällskapet, måste vara positivt och anges i siffror. Börjar om");
+				FindPriceGroup();
 			}
 		}
 

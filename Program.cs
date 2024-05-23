@@ -83,15 +83,25 @@ namespace FlowControl
 			bool success = int.TryParse(ageStr, out int age);
 			if (success) // correct user input
 			{
-				if (age < 20 && age >= 0) // is youth and born
+				if (age < 20 && age >= 5) // is youth
 				{
 					Console.WriteLine("Ungdomspris: 80kr");
 					return 80;
 				}
-				else if (age > 64) // is senior
+				if (age >= 0 && age < 5) // child is free
+				{
+					Console.WriteLine("Barnpris under fem: 0kr");
+					return 0;
+				}
+				else if (age > 64 && age <= 100) // is senior
 				{
 					Console.WriteLine("Pensionärspris: 90kr");
 					return 90;
+				}
+				else if (age > 100) // super senior is free
+				{
+					Console.WriteLine("Pensionärspris över hundra: 0kr");
+					return 0;
 				}
 				else if (age < 0) // invalid age (negative number)
 				{

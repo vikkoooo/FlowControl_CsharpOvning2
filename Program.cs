@@ -92,58 +92,6 @@ namespace FlowControl
 			}
 		}
 
-		private static void RepeatTenTimes()
-		{
-			Console.WriteLine("Skriv en text så upprepar jag den åt dig tio gånger");
-			string text = Console.ReadLine()!;
-
-			if (string.IsNullOrWhiteSpace(text))
-			{
-				Console.WriteLine("Du måste skriva något. Försöker igen");
-				RepeatTenTimes();
-			}
-			else
-			{
-				StringBuilder sb = new StringBuilder();
-
-				for (int i = 0; i < 10; i++)
-				{
-					sb.Append($"{i + 1}. {text}, ");
-				}
-				sb.Remove(sb.Length - 2, 2); // remove trailing ", "
-				Console.WriteLine(sb.ToString()); // print result
-			}
-		}
-
-		private static void TheThirdWord()
-		{
-			Console.WriteLine("Skriv en text så delar jag upp den vid varje blanksteg/space/mellanslag (ange minst 3 ord)");
-			string text = Console.ReadLine()!;
-
-			if (string.IsNullOrWhiteSpace(text))
-			{
-				Console.WriteLine("Du måste skriva något. Försöker igen");
-				TheThirdWord();
-			}
-			else
-			{
-				var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries); // split string AND remove leading/trailing spaces
-
-				// check for at least three words
-				if (words.Length < 3)
-				{
-					Console.WriteLine("Du skriva minst tre ord. Försöker igen");
-					TheThirdWord();
-				}
-				else
-				{
-					string thirdWord = words[2];
-					Console.WriteLine($"Det tredje ordet var: {thirdWord}");
-				}
-			}
-		}
-
-
 		private static int FindPriceOnce()
 		{
 			Console.WriteLine("Ange en ålder i siffror");
@@ -180,6 +128,66 @@ namespace FlowControl
 				Console.WriteLine("Felaktig inmatning av ålder, ange ålder i siffror. Börjar om");
 				YouthOrSenior();
 				return 0;
+			}
+		}
+
+		// Function that repeats the text written by user ten times
+		private static void RepeatTenTimes()
+		{
+			Console.WriteLine("Skriv en text så upprepar jag den åt dig tio gånger");
+			string text = Console.ReadLine()!;
+
+			// Check for valid user input, return user to same state otherwise
+			if (string.IsNullOrWhiteSpace(text))
+			{
+				Console.WriteLine("Du måste skriva något. Försöker igen");
+				RepeatTenTimes();
+			}
+			// good input
+			else
+			{
+				StringBuilder sb = new StringBuilder(); // stringbuilder is more efficient
+
+				// build the string
+				for (int i = 0; i < 10; i++)
+				{
+					sb.Append($"{i + 1}. {text}, ");
+				}
+				sb.Remove(sb.Length - 2, 2); // remove trailing ", "
+				Console.WriteLine($"Resultat: {sb.ToString()}"); // print result
+			}
+		}
+
+		// Method to find the third word in user input
+		private static void TheThirdWord()
+		{
+			Console.WriteLine("Skriv en text så delar jag upp den vid varje blanksteg/space/mellanslag (ange minst 3 ord)");
+			string text = Console.ReadLine()!;
+
+			// Check for valid user input, return user to same state otherwise
+			if (string.IsNullOrWhiteSpace(text))
+			{
+				Console.WriteLine("Du måste skriva något. Försöker igen");
+				TheThirdWord();
+			}
+			// good input
+			else
+			{
+				// split string with blankspaces AND at the same time remove leading/trailing spaces
+				var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+				// check for at least three words, otherwise return user to the same state
+				if (words.Length < 3)
+				{
+					Console.WriteLine("Du skriva minst tre ord. Försöker igen");
+					TheThirdWord();
+				}
+				// good input (3 or more words)
+				else
+				{
+					string thirdWord = words[2]; // third word is on index 2
+					Console.WriteLine($"Det tredje ordet var: {thirdWord}");
+				}
 			}
 		}
 	}

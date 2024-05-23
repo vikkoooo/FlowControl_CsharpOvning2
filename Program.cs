@@ -135,16 +135,10 @@ namespace FlowControl
 		private static void RepeatTenTimes()
 		{
 			Console.WriteLine("Skriv en text så upprepar jag den åt dig tio gånger");
-			string text = Console.ReadLine()!;
+			var (text, success) = GetUserInput();
 
 			// Check for valid user input, return user to same state otherwise
-			if (string.IsNullOrWhiteSpace(text))
-			{
-				Console.WriteLine("Du måste skriva något. Försöker igen");
-				RepeatTenTimes();
-			}
-			// good input
-			else
+			if (success)
 			{
 				StringBuilder sb = new StringBuilder(); // stringbuilder is more efficient
 
@@ -156,38 +150,54 @@ namespace FlowControl
 				sb.Remove(sb.Length - 2, 2); // remove trailing ", "
 				Console.WriteLine($"Resultat: {sb.ToString()}"); // print result
 			}
+			else
+			{
+				RepeatTenTimes(); // send user to the same function
+			}
 		}
 
 		// Method to find the third word in user input
 		private static void TheThirdWord()
 		{
 			Console.WriteLine("Skriv en text så delar jag upp den vid varje blanksteg/space/mellanslag (ange minst 3 ord)");
-			string text = Console.ReadLine()!;
+			var (text, success) = GetUserInput();
 
 			// Check for valid user input, return user to same state otherwise
-			if (string.IsNullOrWhiteSpace(text))
-			{
-				Console.WriteLine("Du måste skriva något. Försöker igen");
-				TheThirdWord();
-			}
-			// good input
-			else
+			if (success)
 			{
 				// split string with blankspaces AND at the same time remove leading/trailing spaces
 				var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
 				// check for at least three words, otherwise return user to the same state
-				if (words.Length < 3)
-				{
-					Console.WriteLine("Du skriva minst tre ord. Försöker igen");
-					TheThirdWord();
-				}
-				// good input (3 or more words)
-				else
+				if (words.Length > 2)
 				{
 					string thirdWord = words[2]; // third word is on index 2
 					Console.WriteLine($"Det tredje ordet var: {thirdWord}");
 				}
+				else
+				{
+					Console.WriteLine("Du skriva minst tre ord. Försöker igen");
+					TheThirdWord();
+				}
+			}
+			else
+			{
+				TheThirdWord(); // return user to same state
+			}
+		}
+
+		// Function gets user input and returns the string along with bool message if we have valid input
+		private static (string text, bool success) GetUserInput()
+		{
+			string text = Console.ReadLine()!;
+			if (string.IsNullOrWhiteSpace(text))
+			{
+				Console.WriteLine("Du måste skriva något. Försöker igen");
+				return (text, false);
+			}
+			else
+			{
+				return (text, true);
 			}
 		}
 	}

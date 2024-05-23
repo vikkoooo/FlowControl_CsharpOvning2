@@ -221,3 +221,18 @@ namespace FlowControl
 		}
 	}
 }
+
+enum MainMenuChoice
+{
+	Exit = 0,
+	YouthOrSenior = 1,
+	RepeatTenTimes = 2,
+	TheThirdWord = 3
+}
+
+enum YouthOrSeniorChoice
+{
+	Back = 0,
+	SinglePerson = 1,
+	Group = 2
+}

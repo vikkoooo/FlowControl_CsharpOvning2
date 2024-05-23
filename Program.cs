@@ -11,21 +11,28 @@ namespace FlowControl
 			while (isRunning)
 			{
 				MainMenu(); // Show Main Menu
-				string choice = Console.ReadLine()!; // Fetch choice
+				string choiceStr = Console.ReadLine()!; // Fetch choice as string
+
+				// if invalid input, return user 
+				if (!Enum.TryParse(choiceStr, out MainMenuChoice choice))
+				{
+					Console.WriteLine("Felaktig inmatning, försök igen.");
+					continue; // break out of the loop but only once
+				}
 
 				// Switch case depending on user case
 				switch (choice)
 				{
-					case "1":
+					case MainMenuChoice.YouthOrSenior:
 						YouthOrSenior();
 						break;
-					case "2":
+					case MainMenuChoice.RepeatTenTimes:
 						RepeatTenTimes();
 						break;
-					case "3":
+					case MainMenuChoice.TheThirdWord:
 						TheThirdWord();
 						break;
-					case "0":
+					case MainMenuChoice.Exit:
 						isRunning = false;
 						Console.WriteLine("Avslutar applikationen");
 						break;
@@ -52,18 +59,25 @@ namespace FlowControl
 			Console.WriteLine("2. Räkna ut för ett helt sällskap");
 			Console.WriteLine("0. Backa till huvudmeny");
 
-			string choice = Console.ReadLine()!;
+			string choiceStr = Console.ReadLine()!;
+			if (!Enum.TryParse(choiceStr, out YouthOrSeniorChoice choice))
+			{
+				Console.WriteLine("Felaktig inmatning, försök igen.");
+				YouthOrSenior();
+				return;
+			}
+
 			switch (choice)
 			{
-				case "1":
+				case YouthOrSeniorChoice.SinglePerson:
 					Console.WriteLine("Räknar ut för en person");
-					FindPriceOnce();
+					FindPriceSingle();
 					break;
-				case "2":
+				case YouthOrSeniorChoice.Group:
 					Console.WriteLine("Räknar ut för flera personer");
 					FindPriceGroup();
 					break;
-				case "0":
+				case YouthOrSeniorChoice.Back:
 					Console.WriteLine("Går tillbaka till huvudmenyn");
 					break;
 				default:
@@ -74,7 +88,7 @@ namespace FlowControl
 		}
 
 		// Function that finds the price for a certain age category and returns it
-		private static int FindPriceOnce()
+		private static int FindPriceSingle()
 		{
 			Console.WriteLine("Ange en ålder i siffror");
 			string ageStr = Console.ReadLine()!;
@@ -137,7 +151,7 @@ namespace FlowControl
 				// find price for each person and add to totalSum counter
 				for (int i = 0; i < n; i++)
 				{
-					int price = FindPriceOnce();
+					int price = FindPriceSingle();
 					totalSum += price;
 				}
 				Console.WriteLine($"Antal personer: {n}");
@@ -222,6 +236,7 @@ namespace FlowControl
 	}
 }
 
+// For choices in the main menu
 enum MainMenuChoice
 {
 	Exit = 0,
@@ -230,6 +245,7 @@ enum MainMenuChoice
 	TheThirdWord = 3
 }
 
+// For choices in the sub menu "youth or senior case"
 enum YouthOrSeniorChoice
 {
 	Back = 0,
